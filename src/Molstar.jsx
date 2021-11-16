@@ -7,19 +7,19 @@ const Molstar = props => {
 
   const { pdbId, url, dimensions, options, clearView } = props;
   const viewerElement = useRef(null);
-  // const viewer = useRef(null);
+  const viewer = useRef(null);
 
   useEffect(() => {
     const mandatoryOptions = dimensions ? { layoutIsExpanded: false } : {};
     const viewerOptions = { ...(options || {}), ...mandatoryOptions };
-    window.viewer = new Viewer(viewerElement.current, viewerOptions);
-    if (pdbId) window.viewer.loadPdb(pdbId);
-    if (url) window.viewer.loadStructureFromUrl(url);
-    // return () => viewer.current = null;
+    viewer.current = new Viewer(viewerElement.current, viewerOptions);
+    if (pdbId) viewer.current.loadPdb(pdbId);
+    if (url) viewer.current.loadStructureFromUrl(url);
+    return () => viewer.current = null;
   }, [])
 
   useEffect(() => {
-    if (clearView) window.viewer.plugin.state.data.dispose()
+    if (clearView) viewer.current.plugin.state.data.dispose()
     console.log('CHANGED:', clearView)
   }, [clearView])
 
@@ -30,6 +30,7 @@ const Molstar = props => {
       position: "relative",
       width: dimensions[0], height: dimensions[1]
     }}>
+      <button onClick={() => viewer.current.plugin.state.data.dispose()}>clear</button>
       <div ref={viewerElement} style={{
         position: "absolute",
         width: dimensions[0], height: dimensions[1], left: 0, right: 0
