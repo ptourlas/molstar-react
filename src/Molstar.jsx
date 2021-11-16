@@ -5,7 +5,7 @@ import { Viewer } from "molstar/build/viewer/molstar";
 
 const Molstar = props => {
 
-  const { pdbId, url, dimensions, options, clearView } = props;
+  const { pdbId, url, dimensions, options, clearView = false } = props;
   const viewerElement = useRef(null);
   const viewer = useRef(null);
 
@@ -14,7 +14,7 @@ const Molstar = props => {
     const viewerOptions = { ...(options || {}), ...mandatoryOptions };
     viewer.current = new Viewer(viewerElement.current, viewerOptions);
     if (pdbId) viewer.current.loadPdb(pdbId);
-    // if (clearView) viewer.current.plugin.state.data.dispose()
+    if (clearView) viewer.current.plugin.state.data.dispose()
     if (url) viewer.current.loadStructureFromUrl(url);
     return () => viewer.current = null;
   }, [])
