@@ -15,12 +15,11 @@ const Molstar = props => {
     viewer.current = new Viewer(viewerElement.current, viewerOptions);
     if (pdbId) viewer.current.loadPdb(pdbId);
     if (url) viewer.current.loadStructureFromUrl(url);
-    return () => viewer.current = null;
   }, [])
 
   useEffect(() => {
     if (clearView) viewer.current.plugin.state.data.dispose()
-    console.log('CHANGED:', clearView)
+    console.log('CHANGEDw:', clearView)
   }, [clearView])
 
   if (!dimensions) return <div ref={viewerElement} />
