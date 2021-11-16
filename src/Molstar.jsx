@@ -5,7 +5,7 @@ import { Viewer } from "molstar/build/viewer/molstar";
 
 const Molstar = props => {
 
-  const { pdbId, url, dimensions, options, clearView = false } = props;
+  const { pdbId, url, dimensions, options, clearView } = props;
   const viewerElement = useRef(null);
   const viewer = useRef(null);
 
@@ -20,6 +20,7 @@ const Molstar = props => {
 
   useEffect(() => {
     if (clearView) viewer.current.plugin.state.data.dispose()
+    console.log('CHANGED:', clearView)
   }, [clearView])
 
   if (!dimensions) return <div ref={viewerElement} />
